@@ -30,8 +30,34 @@ The dataset comes from the UCI “Bank Marketing Data Set” and Kaggle mirror. 
   - LightGBM  
 
 ## Pipeline
-Pipelines combined preprocessing, optional SMOTE, and the model.  
-Evaluation was performed with **stratified train/validation split**. RandomizedSearchCV and Hyperopt (Bayesian optimization) were used for boosting hyperparameter tuning.  
+The project was implemented using **scikit-learn Pipelines** (and `imblearn` Pipelines for SMOTE).  
+This ensures that preprocessing, balancing, and modeling steps are executed consistently and without data leakage.
+
+**Pipeline steps:**
+1. **Preprocessing**
+   - Numerical features: imputed with median values, then standardized.  
+   - Categorical features: imputed with most frequent category, then one-hot encoded.  
+   - Feature engineering: log transforms, campaign binning, interaction features.  
+
+2. **Optional class balancing**
+   - Either `class_weight="balanced"` is passed to the model, or  
+   - **SMOTE** oversampling is applied (inside `imblearn.Pipeline`) after preprocessing, but only on training folds.  
+
+3. **Model training**
+   - Logistic Regression, kNN, Decision Tree, Gradient Boosting, XGBoost, LightGBM.  
+   - All models were wrapped in a pipeline object so they receive the same processed features.  
+
+4. **Evaluation**
+   - Train/validation split was stratified to respect class imbalance.  
+   - Metrics: ROC AUC (primary), plus F1, Precision, Recall.  
+   - RandomizedSearchCV (sklearn) and Hyperopt (Bayesian optimization) were used for hyperparameter tuning of boosting models.  
+
+5. **Interpretability**
+   - Feature importances from tree models.  
+   - SHAP values for local and global explanations.  
+
+This modular pipeline allows easy replacement of models, addition of new feature engineering steps, and guarantees reproducibility.
+
 
 ## Results
 Performance was measured with ROC AUC, F1, Precision, Recall.
