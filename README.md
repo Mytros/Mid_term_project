@@ -25,7 +25,6 @@ The dataset comes from the UCI “Bank Marketing Data Set” and Kaggle mirror. 
   - Logistic Regression  
   - kNN  
   - Decision Tree  
-  - Gradient Boosting (sklearn)  
   - XGBoost  
   - LightGBM  
 
@@ -44,7 +43,7 @@ This ensures that preprocessing, balancing, and modeling steps are executed cons
    - **SMOTE** oversampling is applied (inside `imblearn.Pipeline`) after preprocessing, but only on training folds.  
 
 3. **Model training**
-   - Logistic Regression, kNN, Decision Tree, Gradient Boosting, XGBoost, LightGBM.  
+   - Logistic Regression, kNN, Decision Tree, XGBoost, LightGBM.  
    - All models were wrapped in a pipeline object so they receive the same processed features.  
 
 4. **Evaluation**
